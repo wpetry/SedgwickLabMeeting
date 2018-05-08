@@ -1,0 +1,134 @@
+---
+title: "Reproducing coexistence analysis in Kraft et al. 2015 PNAS Fig. 2"
+author:
+- Vasco Lepori
+- Ewa Merz
+- Will Petry
+date: '2018-05-09'
+output:
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Goal:
+
+Reproduce Fig. 2 of Kraft et al. (2015):
+```{r goal,fig.width=3}
+knitr::include_graphics(path = "Goal-Kraft2015_Fig2.png")
+```
+
+In so doing, we'll explore open science tools that may intrest the group. FigShare, Git(Hub), RMarkdown, & pipeline workflows in code.
+
+## 0. Preliminaries
+
+We're going to highlight a few packages that are helpful when wrangling and plotting data. Load them:
+```{r prelims,message=FALSE}
+library(readr)  # clean data importing
+library(dplyr)  # data wrangling & pipeline tools
+library(tidyr)  # data wrangling tools
+library(ggplot2)  # easy publication quality plots
+```
+Using versions:
+```{r}
+installed.packages()[names(sessionInfo()$otherPkgs), "Version"]
+``` 
+
+Object naming conventions:
+
+- `variables` will be descriptive nouns written in snake_case
+- `functions` will be descriptive verbs written in camelCase
+
+Helpful references for this exercise:
+
+- RMarkdown [Reference](https://rmarkdown.rstudio.com/authoring_basics.html) [Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
+- dplyr/tidyr [Reference](https://dplyr.tidyverse.org/reference/index.html) [Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+- ggplot [Reference](http://ggplot2.tidyverse.org/reference/) [Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+
+## 1. Import the data from online archives.
+
+The demographic rates for Kraft et al.'s (2015; hereafter 'Kraft') coexistence analysis were originally published in Appendix Table 3 by Godoy et al. (2014). The data were republished by Godoy et al. (2017) in a FigShare archive along with the competition coefficients. We'll use the machine-readible FigShare versions for both.
+
+```{r importdata}
+demog <- "IMPORT FROM URL"
+
+alphas <- "IMPORT FROM URL"
+
+```
+
+## 2. The ingredients: Niche and fitness differences
+### 2.1. Making the background
+Modern coexistence theory (Chesson 2000; summarized in Kraft) details the condition for pairwise coexistence:
+
+$$
+\rho<\frac{\kappa_j}{\kappa_i}<\frac{1}{\rho},
+$$
+
+where $\rho$ is the pairwise niche overlap (its complement, $1-\rho$, is the pairwise niche difference) and $\kappa_i/\kappa_j$ is the average fitness difference between species $i$ and $j$. If we arbitrarily assign species $j$ as the superior competitor, this reduces to:
+$$
+\rho<\frac{\kappa_i}{\kappa_j}.
+$$
+Note that the subscripts on the kappas have flipped.
+
+In the Sedgwick annual plant community, Kraft estimated these by fitting experimental data to a model of annual plant population dynamics with pairwise, Beverton-Holt competition terms.
+
+We'll begin by making the figure background to show which fitness differences (y-axis) are compatable with coexistence for each value of niche difference (x-axis). `ggplot` constructs plots as layers, and this is exactly how we'll reproduce Kraft Fig. 2.
+
+```{r figbackground}
+## Make a data.frame that holds the maximum fitness difference where
+## the pair may coexist
+
+
+## Plot it
+
+
+```
+
+### 2.2. Calculate all pairwise niche and fitness differences
+
+Kraft calculated the pairwise niche overlap for annual plants as:
+
+$$
+\rho=\sqrt{\frac{\alpha_{ij}\alpha_{ji}}{\alpha_{jj}\alpha_{ii}}},
+$$
+where $\alpha_{ji}$ is the per-capita effect of species $j$ on the fitness of species $i$.
+
+We can calculate this quantity for each species pair using the data in the `alphas` matrix as follows:
+
+```{r rho}
+
+```
+
+Kraft calculated the average fitness difference for each species pair as:
+$$
+\begin{aligned}
+\frac{\kappa_j}{\kappa_i} &= \left(\frac{\eta_j-1}{\eta_i-1}\right)\sqrt{\frac{\alpha_{ij}\alpha_{ii}}{\alpha_{jj}\alpha_{ji}}} \\
+&= \left(\frac{\frac{g_j\lambda_j}{1-(1-g_j)(s_j)}-1}{\frac{g_i\lambda_i}{1-(1-g_i)(s_i)}-1}\right)\sqrt{\frac{\alpha_{ij}\alpha_{ii}}{\alpha_{jj}\alpha_{ji}}},
+\end{aligned}
+$$
+where $g$ is the germination fraction, $\lambda$ is the per-capita seed production of plants in the absence of competitors, and $s_i$ is the annual survival rate of ungerminated seeds in the soil seedbank.
+
+As before, we can calculate this quantity for all species pairs using the `alphas` matrix and the `demog` data frame.
+
+```{r kappas}
+
+```
+
+## 3. Coexistence analysis & plot
+
+Finally, we'll put this all together as a new layer in the plot.
+
+## Literature cited
+
+Chesson, P. (2000). Mechanisms of maintenance of species diversity. Annual Review of Ecology and Systematics, 31(1), 343–366. [doi:10.1146/annurev.ecolsys.31.1.343](http://dx.doi.org/10.1146/annurev.ecolsys.31.1.343)
+
+Godoy, O., Kraft, N. J. B., & Levine, J. M. (2014). Phylogenetic relatedness and the determinants of competitive outcomes. Ecology Letters, 17(7), 836–844. [doi:10.1111/ele.12289](http://dx.doi.org/10.1111/ele.12289)
+
+Kraft, N. J. B., Godoy, O., & Levine, J. M. (2015). Plant functional traits and the multidimensional nature of species coexistence. Proceedings of the National Academy of Sciences, 112(3), 797–802. [doi:10.1073/pnas.1413650112](http://dx.doi.org/10.1073/pnas.1413650112)
+
+
