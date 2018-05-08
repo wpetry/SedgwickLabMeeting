@@ -9,7 +9,7 @@ Tipton House, UCNRS Sedgwick Reserve
 
 ## Schedule
 ### 9 May 2018
-Our goal is to reproduce the coexistence analysis in Fig. 2 of Krafyt et al. (2015), and to discuss how functional trait variation affects coexistence in the Sedgwick annual plants.
+Our goal is to reproduce the coexistence analysis in Fig. 2 of Kraft et al. (2015), and to discuss how functional trait variation affects coexistence in the Sedgwick annual plants.
 
 **Paper:**
 Kraft, N. J. B., Godoy, O., & Levine, J. M. (2015). Plant functional traits and the multidimensional nature of species coexistence. Proceedings of the National Academy of Sciences, 112(3), 797–802. [doi:10.1073/pnas.1413650112](http://dx.doi.org/10.1073/pnas.1413650112)
